@@ -7,7 +7,7 @@ import java.time.Duration
 
 object KafkaConnectionChecker {
   def main(args: Array[String]): Unit = {
-    val kafkaServer = "34.130.136.107:9092"
+    val kafkaServer = "localhost:9092"
 
     val kafkaProps = new Properties()
     kafkaProps.put("bootstrap.servers", kafkaServer)
@@ -48,4 +48,3 @@ object KafkaConnectionChecker {
     }
   }
 }
-

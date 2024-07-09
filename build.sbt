@@ -1,9 +1,16 @@
 name := "kafkaland"
 version := "1.0"
-scalaVersion := "2.12.18"
+scalaVersion := "2.13.14"
 
-libraryDependencies += "org.apache.kafka" % "kafka-clients" % "3.7.0"
+resolvers += "Akka library repository".at("https://repo.akka.io/maven")
 
-Compile / scalacOptions ++= Seq(
-  "-deprecation"
+val AkkaVersion = "2.9.3"
+val AkkaHttpVersion = "10.6.3"
+libraryDependencies ++= Seq(
+  "com.typesafe.akka" %% "akka-actor-typed" % AkkaVersion,
+  "com.typesafe.akka" %% "akka-stream" % AkkaVersion,
+  "com.typesafe.akka" %% "akka-http" % AkkaHttpVersion,
+  "org.apache.kafka" % "kafka-clients" % "3.7.0"
 )
+
+Compile / scalacOptions ++= Seq("-deprecation")
