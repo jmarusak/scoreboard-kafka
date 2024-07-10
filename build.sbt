@@ -13,4 +13,4 @@ libraryDependencies ++= Seq(
   "org.apache.kafka" % "kafka-clients" % "3.7.0"
 )
 
-Compile / scalacOptions ++= Seq("-deprecation")
+Compile / mainClass := Some("producers.PlayProducer")
