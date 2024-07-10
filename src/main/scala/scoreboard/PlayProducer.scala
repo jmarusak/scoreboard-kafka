@@ -1,15 +1,11 @@
-import spray.json._
-import DefaultJsonProtocol._
+package scoreboard
 
-case class Play(
-  court: String,
-  teamA: Int,
-  teamB: Int)
-{
-  override def toString: String = {
-    s"Play(court $court: $teamA, $teamB)"
-  }
-}
+import spray.json._
+
+import scoreboard.Play
+import scoreboard.PlayJsonProtocol._
+
+import scoreboard.KafkaMockup
 
 object PlayProducer {
   def parseArgs(args: Array[String]): (String, String, String) = {
@@ -34,9 +30,11 @@ object PlayProducer {
 
     val (court, teamA, teamB) = parseArgs(args)
     val play = Play(court, teamA.toInt, teamB.toInt)
-    val json = play.toJson
-    println(json)
-
+    val json = play.toJson.compactPrint
+    
     println(s"$play posted.")
+
+    KafkaMockup.produce(json)
+    KafkaMockup.consume()
   }
 }
