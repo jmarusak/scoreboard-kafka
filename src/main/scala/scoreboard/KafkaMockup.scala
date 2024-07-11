@@ -7,16 +7,16 @@ import scala.io.Source
 import scala.util.{Try, Success, Failure}
 
 object KafkaMockup {
-  def produce(message: String): Unit = {
-    val file = new FileWriter("kafka.json", true)
+  def produce(topic: String, message: String): Unit = {
+    val file = new FileWriter(s"kafka-$topic.json", true)
     val bw = new BufferedWriter(file)
     bw.write(message)
     bw.newLine()
     bw.close()
   }
 
-  def consume(): Unit = {
-    val file = Source.fromFile("kafka.json")
-    file.getLines().foreach(println)
+  def consume(topic: String): List[String] = {
+    val file = Source.fromFile(s"kafka-$topic.json")
+    file.getLines().toList
   }
 }

@@ -10,7 +10,7 @@ import scoreboard.KafkaMockup
 object PlayProducer {
   def parseArgs(args: Array[String]): (String, String, String) = {
     if (args.length != 6) {
-      println("Usage: producers.PlayProducer --court <number> --teamA <points> --teamB <points>")
+      println("Usage: scoreboard.PlayProducer --court <number> --teamA <points> --teamB <points>")
       System.exit(1)
     }
   
@@ -26,15 +26,16 @@ object PlayProducer {
 }
 
   def main(args: Array[String]): Unit = {
-    println("Producer started...")
+    println("PlayProducer started...")
 
     val (court, teamA, teamB) = parseArgs(args)
     val play = Play(court, teamA.toInt, teamB.toInt)
     val json = play.toJson.compactPrint
-    
-    println(s"$play posted.")
 
-    KafkaMockup.produce(json)
-    KafkaMockup.consume()
+    KafkaMockup.produce("play", json)
+    val playsJson = KafkaMockup.consume("play")
+    playsJson.foreach(println)
+  
+    println("Play posted.")
   }
 }
