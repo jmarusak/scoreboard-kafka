@@ -1,0 +1,19 @@
+  .chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+  }
+
+  .chart {
+    width: 800px;
+    height: 140px;
+    margin: 10px;
+  }
+
+  .bar-score {
+    fill: #000;
+    font-size: 24px;
+    text-anchor: start;
+    alignment-baseline: middle;
+    margin-right: 30px;
+  }

@@ -8,27 +8,32 @@ import scoreboard.ScoreJsonProtocol._
 import scoreboard.KafkaMockup
 
 object ScoreProducer {
+  def parseArgs(args: Array[String]): (String, String, String) = {
+    if (args.length != 6) {
+      println("Usage: scoreboard.ScoreProducer --court <number> --A <points> --B <points>")
+      System.exit(1)
+    }
+  
+  var court, a, b = ""
+
+  args.sliding(2, 2).toList.collect {
+    case Array("--court", arg: String) => court = arg
+    case Array("--A", arg: String) => a = arg
+    case Array("--B", arg: String) => b = arg
+  }
+
+  (court, a, b)
+}
+
   def main(args: Array[String]): Unit = {
     println("ScoreProducer started...")
 
-    val messages = KafkaMockup.consume("play")
-    val plays = messages.map(_.parseJson.convertTo[Score])
+    val (court, a, b) = parseArgs(args)
+    val score = Score(court, a.toInt, b.toInt)
+    val message = score.toJson.compactPrint
 
-    // Calculate the scores
-    val scoresMap = plays.groupBy(_.court).view.mapValues(plays => 
-      Score(
-        plays.map(_.court).min,
-        plays.map(_.teamA).sum,
-        plays.map(_.teamB).sum))
-
-    val scores = scoresMap.values.toList
-
-    for (score <- scores) {
-      val message = score.toJson.compactPrint
-      KafkaMockup.produce("score", message)
-      println(message)
-    }
-
-    println("Scores posted.")
+    println(message)
+    KafkaMockup.produce("score", message)
+    println("Score posted.")
   }
 }

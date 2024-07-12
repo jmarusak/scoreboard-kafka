@@ -4,8 +4,8 @@ import spray.json._
 
 case class Score(
   court: String,
-  teamA: Int,
-  teamB: Int
+  a: Int,
+  b: Int
 )
 
 object ScoreJsonProtocol extends DefaultJsonProtocol {

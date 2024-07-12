@@ -12,6 +12,8 @@ import akka.stream.scaladsl.{Flow, Sink, Source, SourceQueueWithComplete}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 
+import scoreboard.KafkaMockup
+
 object WebSocket {
 
   private var browserConnections: List[TextMessage => Unit] = List()
@@ -37,22 +39,28 @@ object WebSocketServer extends App {
   implicit val actorSystem: ActorSystem = ActorSystem("system")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
 
-  val route = path("ws") {
+  val route = path("score") {
     handleWebSocketMessages(WebSocket.listen())
   }
 
   Http().bindAndHandle(route, "localhost", 8080).onComplete {
-    case Success(binding)   => println(s"Listening on ${binding.localAddress.getHostString}:${binding.localAddress.getPort}.")
+    case Success(binding)   => 
+      println(s"Listening on ${binding.localAddress.getHostString}:${binding.localAddress.getPort}")
+      println("Press ENTER to push message. Press 'c' to stop the server.")
     case Failure(exception) => throw exception
   }
 
-  readMessages()
 
-  def readMessages(): Unit =
+  def pushMessage(): Unit =
     for (ln <- io.Source.stdin.getLines) ln match {
-      case "" =>
+      case "c" =>
         actorSystem.terminate()
         return
-      case other => WebSocket.sendText(other)
+      case other => 
+        val message = KafkaMockup.consume("score")
+        WebSocket.sendText(message)
+        println(s"Pushed : $message")
     }
+
+  pushMessage()
 }

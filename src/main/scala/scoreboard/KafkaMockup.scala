@@ -1,22 +1,21 @@
 package scoreboard
 
 import java.io.{FileWriter, BufferedWriter}
-import scala.util.{Try, Success, Failure}
-
-import scala.io.Source
-import scala.util.{Try, Success, Failure}
+import java.io.{FileReader, BufferedReader}
 
 object KafkaMockup {
   def produce(topic: String, message: String): Unit = {
-    val file = new FileWriter(s"kafka-$topic.json", true)
+    val file = new FileWriter(s"kafka-$topic.json", false)
     val bw = new BufferedWriter(file)
     bw.write(message)
-    bw.newLine()
     bw.close()
   }
-
-  def consume(topic: String): List[String] = {
-    val file = Source.fromFile(s"kafka-$topic.json")
-    file.getLines().toList
+  
+  def consume(topic: String): String = {
+    val file = new FileReader(s"kafka-$topic.json")
+    val br = new BufferedReader(file)
+    val message = br.readLine()
+    br.close()
+    message.toString
   }
 }

@@ -1,17 +1,5 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>WebSocket Client</title>
-</head>
-<body>
-    <h1>WebSocket Client Example</h1>
-    <div id="message-container"></div>
-
-    <script>
         // WebSocket connection URL
-        const socketUrl = "ws://localhost:8080/ws";
+        const socketUrl = "ws://localhost:8080/score";
 
         // Create WebSocket instance
         const socket = new WebSocket(socketUrl);
@@ -27,8 +15,8 @@
             console.log("Received message: ", message);
 
             // Display message in the message container
-            const messageContainer = document.getElementById("message-container");
-            messageContainer.innerHTML += `<p>${message}</p>`;
+            //const messageContainer = document.getElementById("message-container");
+            //messageContainer.innerHTML += `<p>${message}</p>`;
         };
 
         // WebSocket onerror event listener
@@ -40,13 +28,3 @@
         socket.onclose = function(event) {
             console.log("WebSocket connection closed.");
         };
-
-        // Example function to send a message to the server (optional)
-        function sendMessage() {
-            const message = "Hello from WebSocket Client!";
-            socket.send(message);
-            console.log("Sent message:", message);
-        }
-    </script>
-</body>
-</html>
