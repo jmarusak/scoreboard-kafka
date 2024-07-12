@@ -44,7 +44,7 @@ object WebSocketServer extends App {
   }
 
   Http().bindAndHandle(route, "localhost", 8080).onComplete {
-    case Success(binding)   => 
+    case Success(binding)   =>
       println(s"Listening on ${binding.localAddress.getHostString}:${binding.localAddress.getPort}")
       println("Press ENTER to push message. Press 'c' to stop the server.")
     case Failure(exception) => throw exception
@@ -56,7 +56,7 @@ object WebSocketServer extends App {
       case "c" =>
         actorSystem.terminate()
         return
-      case other => 
+      case other =>
         val message = KafkaMockup.consume("score")
         WebSocket.sendText(message)
         println(s"Pushed : $message")

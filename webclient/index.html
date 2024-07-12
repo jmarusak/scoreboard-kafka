@@ -1,48 +1,37 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scoreboard</title>
+
   <link rel="stylesheet" href="styles.css">
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="utils.js"></script>
   <script src="charts.js"></script>
   <script src="websocket.js"></script>
 </head>
 <body>
+  <div class="chart-container">
+    <h3>Court 1</h1>
+    <div class="chart" id="court1""></div>
+    <h3>Court 2</h1>
+    <div class="chart" id="court2"></div>
+    <h3>Court 3</h1>
+    <div class="chart" id="court3"></div>
+    <h3>Court 4</h1>
+    <div class="chart" id="court4"></div>
+  </div>
 
-<div class="chart-container">
-  <h3>Court 1</h1>
-  <div class="chart" id="court1""></div>
-  <h3>Court 2</h1>
-  <div class="chart" id="court2"></div>
-  <h3>Court 3</h1>
-  <div class="chart" id="court3"></div>
-  <h3>Court 4</h1>
-  <div class="chart" id="court4"></div>
-</div>
+  <script>
+    var data = [{ team: "A", score: 8 }, { team: "B", score: 8 }];
 
-<script>
-  var data0 = [
-    { team: "A", score: 8 },
-    { team: "B", score: 8 }
-  ];
+    createScoreBar(data, 'court1');
+    createScoreBar(data, 'court2');
+    createScoreBar(data, 'court3');
+    createScoreBar(data, 'court4');
 
-  var data1 = [
-    { team: "A", score: 11 },
-    { team: "B", score: 18 }
-  ];
-
-  createScoreBar(data0, 'court1');
-  createScoreBar(data0, 'court2');
-  createScoreBar(data0, 'court3');
-  createScoreBar(data0, 'court4');
-
-
-  updateScoreBar(data1, 'court1');
-</script>
-
+    setupWebSocket();
+  </script>
 </body>
 </html>

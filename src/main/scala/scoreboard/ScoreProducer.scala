@@ -13,7 +13,7 @@ object ScoreProducer {
       println("Usage: scoreboard.ScoreProducer --court <number> --A <points> --B <points>")
       System.exit(1)
     }
-  
+
   var court, a, b = ""
 
   args.sliding(2, 2).toList.collect {

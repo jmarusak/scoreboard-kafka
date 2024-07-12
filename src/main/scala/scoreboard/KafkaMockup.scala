@@ -10,7 +10,7 @@ object KafkaMockup {
     bw.write(message)
     bw.close()
   }
-  
+
   def consume(topic: String): String = {
     val file = new FileReader(s"kafka-$topic.json")
     val br = new BufferedReader(file)

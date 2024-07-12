@@ -1,30 +1,33 @@
-        // WebSocket connection URL
-        const socketUrl = "ws://localhost:8080/score";
+function setupWebSocket() {
+  //connection URL
+  const socketUrl = "ws://localhost:8080/score";
 
-        // Create WebSocket instance
-        const socket = new WebSocket(socketUrl);
+  // Create instance
+  const socket = new WebSocket(socketUrl);
 
-        // WebSocket onopen event listener
-        socket.onopen = function(event) {
-            console.log("WebSocket connection opened.");
-        };
+  // onopen event listener
+  socket.onopen = function(event) {
+    console.log("WebSocket connection opened.");
+  };
 
-        // WebSocket onmessage event listener
-        socket.onmessage = function(event) {
-            const message = event.data;
-            console.log("Received message: ", message);
+  // onmessage event listener
+  socket.onmessage = function(event) {
+    const message = event.data;
+    console.log("Received message: ", message);
 
-            // Display message in the message container
-            //const messageContainer = document.getElementById("message-container");
-            //messageContainer.innerHTML += `<p>${message}</p>`;
-        };
+    var [court, data] = transformMessage(message);
+    console.log("Transformed message: ", data);
 
-        // WebSocket onerror event listener
-        socket.onerror = function(error) {
-            console.error("WebSocket error:", error);
-        };
+    updateScoreBar(data, "court"+court);
+  };
 
-        // WebSocket onclose event listener
-        socket.onclose = function(event) {
-            console.log("WebSocket connection closed.");
-        };
+  // onerror event listener
+  socket.onerror = function(error) {
+    console.error("WebSocket error:", error);
+  };
+
+  // onclose event listener
+  socket.onclose = function(event) {
+    console.log("WebSocket connection closed.");
+  };
+}
