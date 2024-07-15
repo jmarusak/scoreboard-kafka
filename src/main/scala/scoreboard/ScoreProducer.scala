@@ -5,6 +5,7 @@ import spray.json._
 import scoreboard.Score
 import scoreboard.ScoreJsonProtocol._
 
+import scoreboard.KafkaClient
 import scoreboard.KafkaMockup
 
 object ScoreProducer {
@@ -33,7 +34,8 @@ object ScoreProducer {
     val message = score.toJson.compactPrint
 
     println(message)
-    KafkaMockup.produce("score", message)
+    //KafkaMockup.produce("score", message)
+    KafkaClient.produce("score", message)
     println("Score posted.")
   }
 }
