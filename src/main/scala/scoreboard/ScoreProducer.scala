@@ -1,6 +1,7 @@
 package scoreboard
 
 import spray.json._
+import org.slf4j.LoggerFactory
 
 import scoreboard.Score
 import scoreboard.ScoreJsonProtocol._
@@ -9,6 +10,8 @@ import scoreboard.KafkaClient
 import scoreboard.KafkaMockup
 
 object ScoreProducer {
+  private val logger = LoggerFactory.getLogger(getClass)
+
   def parseArgs(args: Array[String]): (String, String, String) = {
     if (args.length != 6) {
       println("Usage: scoreboard.ScoreProducer --court <number> --A <points> --B <points>")
@@ -27,7 +30,7 @@ object ScoreProducer {
 }
 
   def main(args: Array[String]): Unit = {
-    println("ScoreProducer started...")
+    logger.info("ScoreProducer started...")
 
     val (court, a, b) = parseArgs(args)
     val score = Score(court, a.toInt, b.toInt)

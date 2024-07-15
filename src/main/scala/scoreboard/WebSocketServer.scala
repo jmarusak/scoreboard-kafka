@@ -12,6 +12,9 @@ import akka.stream.scaladsl.{Flow, Sink, Source, SourceQueueWithComplete}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 
+import scala.collection.JavaConverters._
+
+import scoreboard.KafkaClient
 import scoreboard.KafkaMockup
 
 object WebSocket {
@@ -46,21 +49,41 @@ object WebSocketServer extends App {
   Http().bindAndHandle(route, "localhost", 8080).onComplete {
     case Success(binding)   =>
       println(s"Listening on ${binding.localAddress.getHostString}:${binding.localAddress.getPort}")
-      println("Press ENTER to push message. Press 'c' to stop the server.")
     case Failure(exception) => throw exception
   }
+  
+  // run server for certain time
+  val stopServerTime = System.currentTimeMillis() + 30 * 1000 // 30 seconds
 
-
-  def pushMessage(): Unit =
-    for (ln <- io.Source.stdin.getLines) ln match {
-      case "c" =>
-        actorSystem.terminate()
-        return
-      case other =>
-        val message = KafkaMockup.consume("score")
-        WebSocket.sendText(message)
-        println(s"Pushed : $message")
+  // using KafkaMockup (messages in a file)
+  /*
+  try {
+    while (System.currentTimeMillis() < stopServerTime) {  
+      val message = KafkaMockup.consume("score")
+      WebSocket.sendText(message)
+      println(s"Pushed: $message")
     }
+  } finally {
+      actorSystem.terminate()
+      println("Server stopped after 30 seconds")
+  }
+  */
+  
+  // using KafkaClient (messages in a Kafka topic)
+  val consumer = KafkaClient.consume("score")
 
-  pushMessage()
+  try {
+    while (System.currentTimeMillis() < stopServerTime) {  
+      val records = consumer.poll(java.time.Duration.ofMillis(100))
+      for (record <- records.asScala) {
+        val message = record.value()
+        WebSocket.sendText(message)
+        println(s"Pushed: $message")
+      }
+    }
+  } finally {
+    consumer.close()
+    actorSystem.terminate()
+    println("Server stopped after 30 seconds")
+  }
 }
