@@ -53,7 +53,7 @@ object WebSocketServer extends App {
   }
   
   // run server for certain time
-  val stopServerTime = System.currentTimeMillis() + 30 * 1000 // 30 seconds
+  val stopServerTime = System.currentTimeMillis() + 120 * 1000 // 120 seconds
 
   // using KafkaMockup (messages in a file)
   /*
@@ -65,7 +65,7 @@ object WebSocketServer extends App {
     }
   } finally {
       actorSystem.terminate()
-      println("Server stopped after 30 seconds")
+      println("Server stopped after 120 seconds")
   }
   */
   
@@ -84,6 +84,6 @@ object WebSocketServer extends App {
   } finally {
     consumer.close()
     actorSystem.terminate()
-    println("Server stopped after 30 seconds")
+    println("Server stopped after 120 seconds")
   }
 }

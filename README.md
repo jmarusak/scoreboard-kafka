@@ -1,8 +1,23 @@
 ## Volleyball Tournament Scoreboard
 
-### Terminology
+### Problem Statement
+Collecting scorecard data from volleyball courts and post scores on scoreboard.
+![image](images/courts.png)
 
-- **Play**: A rally between two teams, resulting in a point for one of the teams.
-- **Set**: A set is a sequence of plays that ends when one of the teams reaches a certain number of points.
-- **Score**: The number of points a team has in a set.   
-- **Match**: A match is a sequence of sets. The team that wins the most sets wins the match.
+---
+### Solution Overview
+Automated scorecard collection and posting scores on scoreboard using IoT devices and Kafka
+![image](images/architecture.png)
+
+---
+### Development Stack
+- Scala and sbt (Compiler and Build tool)
+- Apache Kafka Java Client library (Producer and Consumer)
+- Akka-Http Scala library (WebSocket server)
+- D3.js (Browser visualization)
+
+---
+### Solution Showcase
+Browser Scoreboard automatically updates scores from volleyball courts
+![image](images/browser.png)
+---
