@@ -17,7 +17,10 @@ Automated scorecard collection and posting scores on scoreboard using IoT device
 - D3.js (Browser visualization)
 
 ---
-### Solution Showcase
-Browser Scoreboard automatically updates scores from volleyball courts
-![image](images/browser.png)
+### Code structure (Classes and Objects)
+![image](images/package.png)
+
 ---
+### Solution Showcase
+Browser visualization of scorecard data
+![image](images/browser.png)
