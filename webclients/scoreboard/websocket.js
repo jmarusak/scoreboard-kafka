@@ -1,6 +1,16 @@
+function transformMessage(message) {
+  var obj = JSON.parse(message);
+
+  var court = obj.court;
+  var data = Object.keys(obj)
+    .filter(key => key !== 'court')
+    .map(key => ({ team: key, score: obj[key] }));
+  return [court, data];
+}
+
 function setupWebSocket() {
   //connection URL
-  const socketUrl = "ws://localhost:8080/score";
+  const socketUrl = "ws://localhost:8082/score";
 
   // Create instance
   const socket = new WebSocket(socketUrl);

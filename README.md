@@ -13,7 +13,7 @@ Automated scorecard collection and posting scores on scoreboard using IoT device
 ### Development Stack
 - Scala and sbt (Compiler and Build tool)
 - Apache Kafka Java Client library (Producer and Consumer)
-- Akka-Http Scala library (WebSocket server)
+- Akka-Http Scala library (Http and WebSocket server)
 - D3.js (Browser visualization)
 
 ---
@@ -21,6 +21,11 @@ Automated scorecard collection and posting scores on scoreboard using IoT device
 ![image](images/package.png)
 
 ---
-### Solution Showcase
-Browser visualization of scorecard data
-![image](images/browser.png)
+### Solution - Score collection   
+**Scorecard** data is collected from volleyball courts and posted on Scoreboard
+![image](images/scorecard.png)
+
+---
+### Solution - Score Visualization   
+**Scoreboard** displays scores from all courts in real-time
+![image](images/scoreboard.png)

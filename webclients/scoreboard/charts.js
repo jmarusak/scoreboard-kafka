@@ -1,5 +1,5 @@
   function createScoreBar(data, courtId) {
-    var margin = { top: 20, right: 20, bottom: 20, left: 20 };
+    var margin = { top: 10, right: 20, bottom: 10, left: 20 };
     var width = 800 - margin.left - margin.right;
     var height = 140 - margin.top - margin.bottom;
 
@@ -20,10 +20,6 @@
       .nice()
       .range([0, width]);
 
-    svg.append('g')
-      .attr('class', 'y-axis')
-      .call(d3.axisLeft(y));
-
     svg.selectAll('.bar')
       .data(data)
       .enter().append('rect')
@@ -32,7 +28,7 @@
       .attr('height', y.bandwidth())
       .attr('x', 0)
       .attr('width', function(d) { return x(d.score); })
-      .attr('fill', function(d) { return d.team == "A" ? 'blue' : 'red'; });
+      .attr('fill', function(d) { return d.team == "blue" ? 'blue' : 'red'; });
 
     svg.selectAll('.bar-score')
       .data(data)
@@ -76,7 +72,7 @@ function updateScoreBar(data, courtId) {
     .transition()
     .duration(500)
     .attr('width', function(d) { return x(d.score); })
-    .attr('fill', function(d) { return d.team == "A" ? 'blue' : 'red'; });
+    .attr('fill', function(d) { return d.team == "blue" ? 'blue' : 'red'; });
 
   bars.exit().remove();
 

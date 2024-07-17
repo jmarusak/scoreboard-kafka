@@ -37,7 +37,7 @@ object WebSocket {
   }
 }
 
-object WebSocketServer extends App {
+object ScoreboardServer extends App {
 
   implicit val actorSystem: ActorSystem = ActorSystem("system")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
@@ -46,9 +46,9 @@ object WebSocketServer extends App {
     handleWebSocketMessages(WebSocket.listen())
   }
 
-  Http().bindAndHandle(route, "localhost", 8080).onComplete {
+  Http().bindAndHandle(route, "localhost", 8082).onComplete {
     case Success(binding)   =>
-      println(s"Listening on ${binding.localAddress.getHostString}:${binding.localAddress.getPort}")
+      println(s"Scoreboard Server online at ${binding.localAddress.getHostString}:${binding.localAddress.getPort}")
     case Failure(exception) => throw exception
   }
   

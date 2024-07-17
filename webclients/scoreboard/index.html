@@ -7,11 +7,11 @@
   <link rel="stylesheet" href="styles.css">
 
   <script src="https://d3js.org/d3.v7.min.js"></script>
-  <script src="utils.js"></script>
   <script src="charts.js"></script>
   <script src="websocket.js"></script>
 </head>
 <body>
+  <h1>Scoreboard</h1>
   <div class="chart-container">
     <h3>Court 1</h1>
     <div class="chart" id="court1""></div>
@@ -24,7 +24,7 @@
   </div>
 
   <script>
-    var data = [{ team: "A", score: 0 }, { team: "B", score: 0 }];
+    var data = [{ team: "blue", score: 1 }, { team: "red", score: 2 }];
 
     createScoreBar(data, 'court1');
     createScoreBar(data, 'court2');
