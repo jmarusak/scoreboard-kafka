@@ -11,11 +11,12 @@ import akka.stream.scaladsl.{Flow, Sink, Source, SourceQueueWithComplete}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
-
 import scala.collection.JavaConverters._
 
-import scoreboard.KafkaClient
-import scoreboard.KafkaMockup
+import org.apache.kafka.clients.consumer.{KafkaConsumer, ConsumerRecords, ConsumerConfig}
+
+import java.util.Properties
+import java.time.Duration
 
 object WebSocket {
 
@@ -37,8 +38,8 @@ object WebSocket {
   }
 }
 
-object ScoreboardServer extends App {
 
+object ScoreboardServer extends App {
   implicit val actorSystem: ActorSystem = ActorSystem("system")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
 
@@ -51,34 +52,27 @@ object ScoreboardServer extends App {
       println(s"Scoreboard Server online at ${binding.localAddress.getHostString}:${binding.localAddress.getPort}")
     case Failure(exception) => throw exception
   }
-  
-  // run server for certain time
+ 
+  // Kafka consumer
+  val topic = "score"
+  val kafkaServer = "localhost:9092"
+  val consumerProps = new Properties()
+  consumerProps.put("bootstrap.servers", kafkaServer)
+  consumerProps.put("group.id", s"$topic-group")
+  consumerProps.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
+  consumerProps.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
+ 
+  val consumer = new KafkaConsumer[String, String](consumerProps)
+  consumer.subscribe(java.util.Collections.singletonList(topic))
+
   val stopServerTime = System.currentTimeMillis() + 120 * 1000 // 120 seconds
-
-  // using KafkaMockup (messages in a file)
-  /*
-  try {
-    while (System.currentTimeMillis() < stopServerTime) {  
-      val message = KafkaMockup.consume("score")
-      WebSocket.sendText(message)
-      println(s"Pushed: $message")
-    }
-  } finally {
-      actorSystem.terminate()
-      println("Server stopped after 120 seconds")
-  }
-  */
-  
-  // using KafkaClient (messages in a Kafka topic)
-  val consumer = KafkaClient.consume("score")
-
   try {
     while (System.currentTimeMillis() < stopServerTime) {  
       val records = consumer.poll(java.time.Duration.ofMillis(100))
       for (record <- records.asScala) {
         val message = record.value()
         WebSocket.sendText(message)
-        println(s"Pushed: $message")
+        println(message)
       }
     }
   } finally {

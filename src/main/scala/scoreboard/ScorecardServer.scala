@@ -8,17 +8,39 @@ import akka.stream.ActorMaterializer
 import scala.concurrent.ExecutionContextExecutor
 import scala.io.StdIn
 
+import java.util.Properties
+import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
+
 object ScorecardServer extends App {
   implicit val system: ActorSystem = ActorSystem("akka-http-server")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
   implicit val executionContext: ExecutionContextExecutor = system.dispatcher
 
+  val kafkaServer = "localhost:9092"
+  val kafkaProps = new Properties()
+  kafkaProps.put("bootstrap.servers", kafkaServer)
+  kafkaProps.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
+  kafkaProps.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer")
+  kafkaProps.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
+  kafkaProps.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
+    
+  val producer = new KafkaProducer[String, String](kafkaProps)
+  
   // Route handling POST requests to /score
   val routes = path("score") {
     post {
       entity(as[String]) { requestBody =>
         println(requestBody)
-        complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, s"Received: $requestBody"))
+        try {
+          val topic = "score"
+          val key = System.currentTimeMillis().toString
+          val record = new ProducerRecord[String, String](topic, key, requestBody)
+          producer.send(record)
+        } catch {
+          case e: Exception =>
+            println("Error connecting to Kafka producer: " + e.getMessage)
+        }
+        complete(HttpEntity(ContentTypes.`application/json`, """{"status": "200"}"""))
       }
     }
   }
@@ -27,6 +49,8 @@ object ScorecardServer extends App {
 
   println(s"Scorecard Server online at http://localhost:8081/\nPress RETURN to stop...")
   StdIn.readLine()
+
+  producer.close()
 
   bindingFuture
     .flatMap(_.unbind())
