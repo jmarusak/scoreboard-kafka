@@ -14,6 +14,6 @@ libraryDependencies ++= Seq(
   "org.apache.kafka" % "kafka-clients" % "3.7.0"
 )
 
-Compile / mainClass := Some("scoreboard.ScorecardServer")
+Compile / mainClass := Some("scoreboard.ScoreConsumer")
 
 assembly / assemblyJarName := "Scoreboard.jar"

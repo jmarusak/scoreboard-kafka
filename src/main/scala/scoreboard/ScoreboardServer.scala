@@ -56,13 +56,13 @@ object ScoreboardServer extends App {
   // Kafka consumer
   val topic = "score"
   val kafkaServer = "localhost:9092"
-  val consumerProps = new Properties()
-  consumerProps.put("bootstrap.servers", kafkaServer)
-  consumerProps.put("group.id", s"$topic-group")
-  consumerProps.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
-  consumerProps.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
+  val kafkaProps = new Properties()
+  kafkaProps.put("bootstrap.servers", kafkaServer)
+  kafkaProps.put("group.id", s"$topic-group")
+  kafkaProps.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
+  kafkaProps.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
  
-  val consumer = new KafkaConsumer[String, String](consumerProps)
+  val consumer = new KafkaConsumer[String, String](kafkaProps)
   consumer.subscribe(java.util.Collections.singletonList(topic))
 
   val stopServerTime = System.currentTimeMillis() + 120 * 1000 // 120 seconds

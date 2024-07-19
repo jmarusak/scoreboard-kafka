@@ -3,7 +3,7 @@ function transformMessage(message) {
 
   var court = obj.court;
   var data = Object.keys(obj)
-    .filter(key => key !== 'court')
+    .filter(key => key == 'blue' || key == 'red')
     .map(key => ({ team: key, score: obj[key] }));
   return [court, data];
 }

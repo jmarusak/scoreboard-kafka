@@ -21,8 +21,6 @@ object ScorecardServer extends App {
   kafkaProps.put("bootstrap.servers", kafkaServer)
   kafkaProps.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
   kafkaProps.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer")
-  kafkaProps.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
-  kafkaProps.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
     
   val producer = new KafkaProducer[String, String](kafkaProps)
   

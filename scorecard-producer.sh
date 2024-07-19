@@ -1,1 +1,1 @@
-java -cp target/scala-2.13/Scoreboard.jar scoreboard.ScorecardProducer $@
+java -cp target/scala-2.13/Scoreboard.jar scoreboard.ScoreProducer $@
