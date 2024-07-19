@@ -10,13 +10,13 @@ object ScoreConsumer {
     val topic = "score"
     val kafkaServer = "localhost:9092"
     val kafkaProps = new Properties()
-    
+
     kafkaProps.put("bootstrap.servers", kafkaServer)
     kafkaProps.put("group.id", s"$topic-group-all")
     kafkaProps.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
     kafkaProps.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
     kafkaProps.put("auto.offset.reset", "earliest") // messages from beginning
-  
+
     val consumer = new KafkaConsumer[String, String](kafkaProps)
     consumer.subscribe(java.util.Collections.singletonList(topic))
     try {

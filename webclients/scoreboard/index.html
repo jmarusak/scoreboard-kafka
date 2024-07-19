@@ -24,12 +24,10 @@
   </div>
 
   <script>
-    var data = [{ team: "blue", score: 0 }, { team: "red", score: 0 }];
-
-    createScoreBar(data, 'court1');
-    createScoreBar(data, 'court2');
-    createScoreBar(data, 'court3');
-    createScoreBar(data, 'court4');
+    createScoreBar(data=[{ team: "blue", score: randomScore() }, { team: "red", score: randomScore() }], 'court1');
+    createScoreBar(data=[{ team: "blue", score: randomScore() }, { team: "red", score: randomScore() }], 'court2');
+    createScoreBar(data=[{ team: "blue", score: randomScore() }, { team: "red", score: randomScore() }], 'court3');
+    createScoreBar(data=[{ team: "blue", score: randomScore() }, { team: "red", score: randomScore() }], 'court4');
 
     setupWebSocket();
   </script>

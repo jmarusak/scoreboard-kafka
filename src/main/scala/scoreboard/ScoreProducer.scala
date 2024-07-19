@@ -32,11 +32,12 @@ object ScoreProducer {
     kafkaProps.put("bootstrap.servers", kafkaServer)
     kafkaProps.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
     kafkaProps.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer")
-    
+
     val (court, blue, red) = parseArgs(args)
-    val score = Score(court, blue.toInt, red.toInt)
+    val ptime = System.currentTimeMillis
+    val score = Score(court, blue.toInt, red.toInt, ptime)
     val message = score.toJson.compactPrint
-    
+
     val producer = new KafkaProducer[String, String](kafkaProps)
     try {
       val key = System.currentTimeMillis().toString

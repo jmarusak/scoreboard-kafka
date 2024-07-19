@@ -52,7 +52,7 @@ object ScoreboardServer extends App {
       println(s"Scoreboard Server online at ${binding.localAddress.getHostString}:${binding.localAddress.getPort}")
     case Failure(exception) => throw exception
   }
- 
+
   // Kafka consumer
   val topic = "score"
   val kafkaServer = "localhost:9092"
@@ -61,13 +61,13 @@ object ScoreboardServer extends App {
   kafkaProps.put("group.id", s"$topic-group")
   kafkaProps.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
   kafkaProps.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
- 
+
   val consumer = new KafkaConsumer[String, String](kafkaProps)
   consumer.subscribe(java.util.Collections.singletonList(topic))
 
-  val stopServerTime = System.currentTimeMillis() + 120 * 1000 // 120 seconds
+  val stopServerTime = System.currentTimeMillis() + 1000 * 60 * 5 // 5 minutes
   try {
-    while (System.currentTimeMillis() < stopServerTime) {  
+    while (System.currentTimeMillis() < stopServerTime) {
       val records = consumer.poll(java.time.Duration.ofMillis(100))
       for (record <- records.asScala) {
         val message = record.value()
@@ -78,6 +78,6 @@ object ScoreboardServer extends App {
   } finally {
     consumer.close()
     actorSystem.terminate()
-    println("Server stopped after 120 seconds")
+    println("Server stopped after 5 minutes.")
   }
 }

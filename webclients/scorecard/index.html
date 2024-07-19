@@ -7,12 +7,19 @@
   <script src="listener.js"></script>
 </head>
 <body>
-
-  <h1>Scorecard</h1>
-  <div class="container">
-    <div class="number blue" id="blueScore">0</div>
+  <div class="header-container">
+    <h1>Scorecard</h1>
+    <select id="court">
+      <option value="1">Court 1</option>
+      <option value="2">Court 2</option>
+      <option value="3">Court 3</option>
+      <option value="4">Court 4</option>
+    </select>
+  </div>
+  <div class="score-container">
+    <div class="score blue" id="blueScore">0</div>
     <div class="colon" id="colon">:</div>
-    <div class="number red" id="redScore">0</div>
+    <div class="score red" id="redScore">0</div>
   </div>
 
   <script>listener()</script>

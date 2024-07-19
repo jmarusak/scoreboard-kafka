@@ -21,9 +21,9 @@ object ScorecardServer extends App {
   kafkaProps.put("bootstrap.servers", kafkaServer)
   kafkaProps.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
   kafkaProps.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer")
-    
+
   val producer = new KafkaProducer[String, String](kafkaProps)
-  
+
   // Route handling POST requests to /score
   val routes = path("score") {
     post {

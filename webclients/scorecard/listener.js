@@ -3,6 +3,7 @@ function toJson(court, blue, red) {
   obj["court"] = court;
   obj["blue"] = blue;
   obj["red"] = red;
+  obj["ptime"] = new Date().getTime();
   return JSON.stringify(obj);
 }
 
@@ -37,20 +38,21 @@ function listener() {
   let blueScore = 0;
   let redScore = 0;
 
-  const blueNumberElement = document.getElementById('blueScore');
-  const redNumberElement = document.getElementById('redScore');
+  const courtElement = document.getElementById('court');
+  const blueScoreElement = document.getElementById('blueScore');
+  const redScoreElement = document.getElementById('redScore');
 
-  blueNumberElement.addEventListener('click', function() {
+  blueScoreElement.addEventListener('click', function() {
     blueScore++;
-    blueNumberElement.textContent = blueScore;
-    let message = toJson("1", blueScore, redScore);
+    blueScoreElement.textContent = blueScore;
+    let message = toJson(court.value, blueScore, redScore);
     post(message);
   });
 
-  redNumberElement.addEventListener('click', function() {
+  redScoreElement.addEventListener('click', function() {
     redScore++;
-    redNumberElement.textContent = redScore;
-    let message = toJson("1", blueScore, redScore);
+    redScoreElement.textContent = redScore;
+    let message = toJson(court.value, blueScore, redScore);
     post(message);
   });
 }
