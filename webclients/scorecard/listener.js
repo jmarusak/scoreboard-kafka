@@ -3,7 +3,7 @@ function toJson(court, blue, red) {
   obj["court"] = court;
   obj["blue"] = blue;
   obj["red"] = red;
-  obj["ptime"] = new Date().getTime();
+  obj["playtime"] = new Date().getTime();
   return JSON.stringify(obj);
 }
 

@@ -20,7 +20,7 @@ object ScoreConsumer {
     val consumer = new KafkaConsumer[String, String](kafkaProps)
     consumer.subscribe(java.util.Collections.singletonList(topic))
     try {
-      val records = consumer.poll(java.time.Duration.ofMillis(100))
+      val records = consumer.poll(java.time.Duration.ofMillis(1000))
       for (record <- records.asScala) {
         val message = record.value()
         println(message)

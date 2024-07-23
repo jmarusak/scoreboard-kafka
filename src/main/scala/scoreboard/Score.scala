@@ -6,7 +6,7 @@ case class Score(
   court: String,
   blue: Int,
   red: Int,
-  ptime: Long
+  playtime: Long
 )
 
 object ScoreJsonProtocol extends DefaultJsonProtocol {
