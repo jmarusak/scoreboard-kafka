@@ -4,6 +4,7 @@ import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity, HttpRequest, HttpResponse, StatusCodes}
 import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
 import scala.concurrent.ExecutionContextExecutor
 import scala.io.StdIn
@@ -24,8 +25,12 @@ object ScorecardServer extends App {
 
   val producer = new KafkaProducer[String, String](kafkaProps)
 
-  // Route handling POST requests to /score
-  val routes = path("score") {
+  val webRoute: Route = 
+    get {
+      getFromResourceDirectory("web")
+    }
+
+  val apiRoute = path("score") {
     post {
       entity(as[String]) { requestBody =>
         println(requestBody)
@@ -43,9 +48,9 @@ object ScorecardServer extends App {
     }
   }
 
-  val bindingFuture = Http().bindAndHandle(routes, "localhost", 8081)
+  val bindingFuture = Http().bindAndHandle(webRoute ~ apiRoute, "localhost", 8080)
 
-  println(s"Scorecard Server online at http://localhost:8081")
+  println(s"Scorecard Server online at http://localhost:8080")
   println("Press ENTER to stop the server...")
   StdIn.readLine()
 

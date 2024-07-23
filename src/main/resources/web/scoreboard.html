@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Scoreboard</title>
+
+  <link rel="stylesheet" href="scoreboard.css">
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="scoreboard.js"></script>
+  <script src="scoreboard_ws.js"></script>
+</head>
+<body>
+  <h1>Scoreboard</h1>
+  <div class="chart-container">
+    <h3>Court 1</h1>
+    <div class="chart" id="court1""></div>
+    <h3>Court 2</h1>
+    <div class="chart" id="court2"></div>
+    <h3>Court 3</h1>
+    <div class="chart" id="court3"></div>
+    <h3>Court 4</h1>
+    <div class="chart" id="court4"></div>
+  </div>
+
+  <script>
+    const data=[{ "team": "blue", "score": 0 }, { "team": "red", "score": 0 }];
+
+    createScoreBar(data, "court1");
+    createScoreBar(data, "court2");
+    createScoreBar(data, "court3");
+    createScoreBar(data, "court4");
+
+    setupWebSocket();
+  </script>
+</body>
+</html>

@@ -10,13 +10,13 @@ function toJson(court, blue, red) {
 function post(message) {
   console.log(message)
 
-  const apiUrl = 'http://localhost:8081/score';
+  const apiUrl = 'http://localhost:8080/score';
 
   const options = {
     method: 'POST',
     mode: 'no-cors',
     headers: {'Content-Type': 'application/json' },
-    body: message 
+    body: message
   };
 
   fetch(apiUrl, options)

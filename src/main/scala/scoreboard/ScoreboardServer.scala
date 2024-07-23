@@ -65,7 +65,7 @@ object ScoreboardServer extends App {
   kafkaProps.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
 
   val consumer = new KafkaConsumer[String, String](kafkaProps)
- 
+
   // stop the server when ENTER is pressed on other thread
   val stopServerFlag = new AtomicBoolean(false)
   val inputThread = new Thread(() => {
