@@ -17,6 +17,8 @@ import org.apache.kafka.clients.consumer.{KafkaConsumer, ConsumerRecords, Consum
 
 import java.util.Properties
 import java.time.Duration
+import java.util.Scanner
+import java.util.concurrent.atomic.AtomicBoolean
 
 object WebSocket {
 
@@ -63,11 +65,20 @@ object ScoreboardServer extends App {
   kafkaProps.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
 
   val consumer = new KafkaConsumer[String, String](kafkaProps)
-  consumer.subscribe(java.util.Collections.singletonList(topic))
+ 
+  // stop the server when ENTER is pressed on other thread
+  val stopServerFlag = new AtomicBoolean(false)
+  val inputThread = new Thread(() => {
+    println("Press ENTER to stop the server...")
+    val scanner = new Scanner(System.in)
+    scanner.nextLine() // Wait for ENTER
+    stopServerFlag.set(true)
+  })
+  inputThread.start()
 
-  val stopServerTime = System.currentTimeMillis() + 1000 * 60 * 5 // 5 minutes
+  consumer.subscribe(java.util.Collections.singletonList(topic))
   try {
-    while (System.currentTimeMillis() < stopServerTime) {
+    while (!stopServerFlag.get()) {
       val records = consumer.poll(java.time.Duration.ofMillis(100))
       for (record <- records.asScala) {
         val message = record.value()
@@ -78,6 +89,5 @@ object ScoreboardServer extends App {
   } finally {
     consumer.close()
     actorSystem.terminate()
-    println("Server stopped after 5 minutes.")
   }
 }

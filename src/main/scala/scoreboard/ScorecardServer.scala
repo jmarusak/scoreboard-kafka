@@ -45,7 +45,8 @@ object ScorecardServer extends App {
 
   val bindingFuture = Http().bindAndHandle(routes, "localhost", 8081)
 
-  println(s"Scorecard Server online at http://localhost:8081/\nPress RETURN to stop...")
+  println(s"Scorecard Server online at http://localhost:8081")
+  println("Press ENTER to stop the server...")
   StdIn.readLine()
 
   producer.close()
