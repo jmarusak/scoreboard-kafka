@@ -1,31 +1,32 @@
 ## Volleyball Tournament Scoreboard
 
-### Opportunity 
-Collecting scores from volleyball courts and posting them on scoreboard.
+### Project Overview
+Volleyball tournament score collection and standings calculation in real-time.
 ![image](images/courts.png)
 
 ---
 ### Solution Overview
-Automated scorecard collection and posting scores on scoreboard using IoT devices and Kafka
+Streaming **Scorecard** scores to _Kafka_ and consuming scores for **Scoreboard** visualization using _WebSockets_. Also consuming scores by _Spark Streaming_ for real-time **Standings**.
 ![image](images/architecture.png)
 
 ---
 ### Development Stack
-- Scala and sbt (Compiler and Build tool)
-- Apache Kafka Java Client library (Producer and Consumer)
+- Scala and sbt (compiler and build tool)
+- Apache Kafka Java Client library (producer and consumer apis)
 - Akka-Http Scala library (Http and WebSocket server)
-- Apache Spark Streaming (Tournamnet statistics)
-- D3.js (Browser visualization)
+- Apache Spark Streaming (tournament standings)
+- Apache Zeppelin Notebooks (further analysis of tournament) 
+- D3.js (browser visualization)
 
 ---
 ### Solution - Score Collection
-**Scorecard** data is collected from volleyball courts and posted on Scoreboard
+**Scorecard** data is collected from volleyball courts and posted on **Scoreboard**.
 ![image](images/scorecard.png)
 
 ---
-### Solution - Score Visualization
-**Scoreboard** displays scores from all courts in real-time
-![image](images/scoreboard.png)
+### Solution - Teams Standing
+**Standings** are calculated in real-time as soon as the latest scores arrive.
+![image](images/standings.png)
 
 ---
 ### Code structure (Classes and Objects)
