@@ -8,6 +8,10 @@ import java.util.Properties
 import scoreboard.Score
 import scoreboard.ScoreJsonProtocol._
 
+/**
+ * ScoreProducer simulates a score update from a scorecard.
+ * It sends a single score update to a Kafka topic.
+ */
 object ScoreProducer {
   def parseArgs(args: Array[String]): (String, String, String) = {
     if (args.length != 6) {

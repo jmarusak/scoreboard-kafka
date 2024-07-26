@@ -5,6 +5,9 @@ import java.util.Properties
 import java.time.Duration
 import scala.collection.JavaConverters._
 
+/**
+ * ScoreConsumer consumes and prints all score updates from a Kafka topic.
+ */
 object ScoreConsumer {
   def main(args: Array[String]): Unit = {
     val topic = "score"

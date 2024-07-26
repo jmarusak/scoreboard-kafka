@@ -20,12 +20,13 @@ import java.time.Duration
 import java.util.Scanner
 import java.util.concurrent.atomic.AtomicBoolean
 
+/**
+ * WebSocket object provides methods for managing WebSocket connections.
+ */
 object WebSocket {
-
   private var browserConnections: List[TextMessage => Unit] = List()
 
   def listen(): Flow[Message, Message, NotUsed] = {
-
     val inbound: Sink[Message, Any] = Sink.foreach(_ => ())
     val outbound: Source[Message, SourceQueueWithComplete[Message]] = Source.queue[Message](16, OverflowStrategy.fail)
 
@@ -40,7 +41,12 @@ object WebSocket {
   }
 }
 
-
+/**
+ * ScoreboardServer is responsible for:
+ *   - Establishing a WebSocket connection with the scoreboard UI.
+ *   - Consuming score updates from a Kafka topic.
+ *   - Broadcasting score updates to connected WebSocket clients.
+ */
 object ScoreboardServer extends App {
   implicit val actorSystem: ActorSystem = ActorSystem("system")
   implicit val materializer: ActorMaterializer = ActorMaterializer()

@@ -12,6 +12,12 @@ import scala.io.StdIn
 import java.util.Properties
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 
+/**
+ * ScorecardServer is responsible for:
+ *   - Serving the static HTML, CSS, and JavaScript files for the scorecard web UI.
+ *   - Providing an API endpoint for receiving score updates from the scorecard UI.
+ *   - Publishing score updates to a Kafka topic.
+ */
 object ScorecardServer extends App {
   implicit val system: ActorSystem = ActorSystem("akka-http-server")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
