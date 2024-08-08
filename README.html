@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Scoreboar Project Site</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="README.css">
+</head>
+<body>
+  <main>
+<h2>Scoreboard Project Site</h2>
+<h3>Project Overview</h3>
+<p>Volleyball tournament score collection and standings calculation in real-time.<br />
+<img src="images/courts.png" alt="image" /></p>
+<hr />
+<h3>Solution Overview</h3>
+<p>Streaming <strong>Scorecard</strong> scores to <i>Kafka</i> and consuming scores for <strong>Scoreboard</strong> visualization using <i>WebSockets</i>. Also consuming scores by <i>Spark Streaming</i> for real-time <strong>Standings</strong>.<br />
+<img src="images/architecture.png" alt="image" /></p>
+<hr />
+<h3>Development Stack</h3>
+<ul>
+<li>Scala and sbt (compiler and build tool)</li>
+<li>Apache Kafka Java Client library (producer and consumer apis)</li>
+<li>Akka-Http Scala library (Http and WebSocket server)</li>
+<li>Apache Spark Streaming (tournament standings)</li>
+<li>Apache Zeppelin Notebooks (further analysis of tournament)</li>
+<li>D3.js (browser visualization)</li>
+</ul>
+<hr />
+<h3>Solution - Score Collection</h3>
+<p><strong>Scorecard</strong> data is collected from volleyball courts and posted on <strong>Scoreboard</strong>.<br />
+<img src="images/scorecard.png" alt="image" /></p>
+<hr />
+<h3>Solution - Standings</h3>
+<p><strong>Standings</strong> are calculated in real-time as soon as the latest scores arrive.<br />
+<img src="images/standings.png" alt="image" /></p>
+<hr />
+<h3>Code structure (Classes and Objects)</h3>
+<p><img src="images/package.png" alt="image" /></p>
+<hr />
+<h3>Screencast</h3>
+<video width="600" height="400" controls> <source src="images/scoreboard.mp4" type="video/mp4"> </video>
+  </main>
+</body>
+</html>
