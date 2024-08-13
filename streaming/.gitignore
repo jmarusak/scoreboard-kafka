@@ -1,0 +1,14 @@
+.bloop/
+.bsp/
+.cache
+.idea
+.history
+.lib/
+.metals/
+.vscode/
+target/
+
+data
+*.class
+*.log
+*.swp
